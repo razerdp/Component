@@ -1,0 +1,143 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply from: 'config.gradle'
+
+buildscript {
+    repositories {
+        mavenCentral()
+        google()
+        jcenter { url 'https://maven.aliyun.com/repository/jcenter' }
+        jcenter()
+        maven { url "https://jitpack.io" }
+
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.4.2'
+    }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+        google()
+        jcenter { url 'https://maven.aliyun.com/repository/jcenter' }
+        jcenter()
+        maven { url "https://jitpack.io" }
+    }
+
+
+    gradle.taskGraph.whenReady {
+        tasks.each { task ->
+            if (task.name.contains("Test")
+                    || task.name.contains("mockableAndroidJar")
+                    || task.name.contains("UnitTest")
+                    || task.name.contains("AndroidTest")) {
+                task.enabled = false
+            }
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+//子项目配置
+subprojects { project ->
+    afterEvaluate {
+        if (project.hasProperty("android")) {
+            android {
+                compileSdkVersion rootProject.ext.compileSdkVersion
+
+                defaultConfig {
+                    minSdkVersion rootProject.ext.minSdkVersion
+                    targetSdkVersion rootProject.ext.targetSdkVersion
+                    versionCode rootProject.ext.versionCode
+                    versionName rootProject.ext.versionName
+                }
+
+                lintOptions {
+                    abortOnError true
+                    disable 'GradleDependency'
+                    disable 'InvalidPackage'
+                    disable 'TypographyDashes'
+                    disable 'TypographyFractions'
+                    disable 'LabelFor'
+                    disable 'IconLauncherShape'
+                    disable 'IconMissingDensityFolder'
+                }
+
+
+                compileOptions {
+                    sourceCompatibility JavaVersion.VERSION_1_8
+                    targetCompatibility JavaVersion.VERSION_1_8
+                }
+
+                packagingOptions {
+                    exclude 'META-INF/DEPENDENCIES.txt'
+                    exclude 'META-INF/LICENSE.txt'
+                    exclude 'META-INF/NOTICE.txt'
+                    exclude 'META-INF/NOTICE'
+                    exclude 'META-INF/LICENSE'
+                    exclude 'META-INF/DEPENDENCIES'
+                    exclude 'META-INF/notice.txt'
+                    exclude 'META-INF/license.txt'
+                    exclude 'META-INF/dependencies.txt'
+                    exclude 'META-INF/LGPL2.1'
+                }
+            }
+        } else {
+            println "==== with no android property： ${project.name} ===="
+        }
+
+        if (project.plugins.hasPlugin('com.android.library')) {
+            android {
+                buildTypes {
+                    release {
+                        minifyEnabled true
+                        consumerProguardFiles 'proguard-rules.pro'
+                    }
+                    debug {
+                        minifyEnabled false
+                        consumerProguardFiles 'proguard-rules.pro'
+                    }
+                }
+
+            }
+            if (project.name.contains('module')) {
+                println "==== add arguments： ${project.name} ===="
+                android {
+                    defaultConfig {
+                        javaCompileOptions {
+                            annotationProcessorOptions {
+                                arguments = ['MODULE_NAME': project.getName()]
+                            }
+                        }
+                    }
+                }
+            }
+        } else if (project.plugins.hasPlugin('com.android.application')) {
+            android {
+                buildTypes {
+                    debug {
+                        shrinkResources false
+                        minifyEnabled false
+                        proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+                    }
+
+                    release {
+                        zipAlignEnabled true
+                        shrinkResources true
+                        minifyEnabled true
+                        proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+                    }
+                }
+
+                dexOptions {
+                    javaMaxHeapSize "4g"
+                    jumboMode = true
+                }
+            }
+        }
+    }
+
+}

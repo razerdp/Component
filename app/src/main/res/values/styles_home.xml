@@ -1,0 +1,14 @@
+<resources>
+
+    <style name="HomeNavigationBarText">
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:textColor">@drawable/selector_text_home_navigation</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="HomeItemHorizontalMargin">
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+    </style>
+</resources>

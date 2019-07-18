@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#23242e</color>
+    <color name="colorPrimaryDark">#1A1B22</color>
+    <color name="colorAccent">#6B7887</color>
+
+    <color name="color_divider">#e0e0e0</color>
+    <color name="color_common">#826655</color>
+    <color name="color_web_progress">#826655</color>
+    <color name="color_dialog_positive">#826655</color>
+    <color name="color_dialog_negative">#999999</color>
+    <color name="common_window_background">#F2F5FC</color>
+
+    <color name="color_navigation_normal">#d2d5dd</color>
+    <color name="color_navigation_selected">#fee4b7</color>
+
+</resources>

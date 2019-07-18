@@ -1,0 +1,11 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.razerdp.router" >
+    <application>
+        <provider
+            android:name=".core.InitProvider"
+            android:authorities="${applicationId}.ModuleManagerInitProvider"
+            android:exported="false"
+            android:multiprocess="false"
+            android:grantUriPermissions="true"/>
+    </application>
+</manifest>

@@ -1,0 +1,9 @@
+apply plugin: 'com.android.library'
+
+dependencies {
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    api project(':router')
+
+    annotationProcessor project(':lib_processor')
+
+}

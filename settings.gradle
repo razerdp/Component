@@ -1,0 +1,19 @@
+include ':app'
+include ':baselib'
+include ':common'
+include ':router'
+
+//java
+
+include ':lib_annotation'
+include ':lib_processor'
+
+//modules
+include ':module_first'
+include ':module_second'
+include ':module_third'
+
+//modules app
+include ':modules_private:module_first_private'
+include ':modules_private:module_second_private'
+include ':modules_private:module_third_private'
